@@ -67,6 +67,6 @@ Other future work include stratifying each community districts in New York into 
  
 ## **Repository**
 
-* Our [final report](https://github.com/yuezhaocolumbia/p8105_final_vital_statistics) repo is here.
+* Our [final report](https://github.com/yuezhaocolumbia/p8105_final_vital_statistics/blob/master/final%20report/final_report.md) is here.
 
 * Our [final website](https://github.com/XueYang29/p8105_Finalproject_website) repo is here.
