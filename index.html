@@ -19,9 +19,6 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -172,101 +169,6 @@ $(document).ready(function () {
 
 
 
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
-
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
-
-
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -284,39 +186,24 @@ div.tocify {
         
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Examples
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="code.html">Code</a>
-    </li>
-    <li>
-      <a href="plotly.html">Plotly</a>
-    </li>
-    <li>
-      <a href="dashboard_template.html">Dashboard</a>
-    </li>
-  </ul>
+        <li>
+  <a href="birth.html">Birth</a>
 </li>
 <li>
-  <a href="http://www.google.com">Google</a>
+  <a href="death.html">Death</a>
 </li>
 <li>
-  <a href="about.html">About</a>
+  <a href="dashboard_template.html">Dashboard</a>
 </li>
 <li>
-  <a href="mailto:&lt;you@youremail.com&gt;">
-    <span class="fa fa-envelope fa-lg"></span>
-     
-  </a>
-</li>
-<li>
-  <a href="http://github.com/XueYang29/">
+  <a href="https://github.com/yuezhaocolumbia/p8105_final_vital_statistics">
     <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://www.youtube.com/embed/xTQKZP_36tE">
+    <span class="fa fa-video fa-lg"></span>
      
   </a>
 </li>
@@ -336,60 +223,33 @@ div.tocify {
 <p><br> <br></p>
 <p><img src="http://www.columbia.edu/~sw2206/cu_mailman_logo.png" /><br />
 <br></p>
-<div id="vital-statistics-data-analysis-in-new-york-city-dsi-final-project" class="section level2">
-<h2><strong>Vital Statistics Data Analysis in New York City | DSI | Final Project</strong></h2>
+<div id="vital-statistics-data-analysis-in-new-york-city" class="section level1">
+<h1><strong>Vital Statistics Data Analysis in New York City</strong></h1>
 <p><br></p>
-<div id="yi-xiaoyx2510-xue-yangxy2397-kangkang-zhangkz2334-yue-zhaoyz3297" class="section level3">
-<h3>Yi Xiao(yx2510) | Xue Yang(xy2397) | Kangkang Zhang(kz2334) | Yue Zhao(yz3297)</h3>
 <hr />
+<div id="group-member" class="section level2">
+<h2><strong>Group Member</strong></h2>
+<p><strong>Yi Xiao(yx2510)</strong></p>
+<p><strong>Xue Yang(xy2397)</strong></p>
+<p><strong>Kangkang Zhang(kz2334)</strong></p>
+<p><strong>Yue Zhao(yz3297)</strong></p>
+<p><br></p>
 </div>
-</div>
-<div id="motivation" class="section level1">
-<h1><strong>Motivation</strong></h1>
+<div id="motivation" class="section level2">
+<h2><strong>Motivation</strong></h2>
 <p>Vital statistics including birth and mortality data is of critical importance in assesssing community health status. Birth rate, leading cause of death and mortality rate often serve as cornerstone in formulating public health policies.</p>
 <p>Motality data, for example, offers a snapshot of current health problems and knowing the causes of death, especially the avoidable and treatable ones, helps us to establish intervention for better outcomes. By investigating the trend of a specific cause of death over time, we can also identify consistent risk in a specific groups and evaluate the effect of a certain public health policy. Disparity in mortality rate, premature death and cause of death in different race and gender can indicate socioeconomic inequility.</p>
-<p>Birth data, on the other hand,a</p>
+<p>Birth data, on the other hand, will directly influence the total population which may have effect on the calculation of the measures of disease occurrence. At the same time, birth rate may also be influenced by the maternal issue, such as maternal age, nativity and so on. So analysing on the birth data can help us identify the issue that may cause the increase or decrease of the birth counts, which can further help us to identify the construction of the total population.</p>
 <p><br></p>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/xTQKZP_36tE" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen>
-</iframe>
+</div>
+<div id="data-sources" class="section level2">
+<h2><strong>Data Sources</strong></h2>
+<p>Our data is from the <a href="https://www1.nyc.gov/site/doh/index.page">NYC Department of Health and Mental Hygiene</a> .</p>
+<p>Datasets that will be used in this project are, but not limited to, the <a href="https://www1.nyc.gov/site/doh/data/data-sets/vital-statistics-birth-micro-sas-datasets.page">birth micro SAS Datasets</a> and <a href="https://www1.nyc.gov/site/doh/data/data-sets/death-micro-sas-datasets.page">death micro SAS Datasets</a> from National Vital Statistics System (time period is from 2000 to 2014). American Community Survey can be refered to for poverty data.</p>
 <p><br></p>
-<p>For our final Data Science project, we decided to analyze the Medicare data to try to assess some of these claims.</p>
 </div>
-<div id="data-sources" class="section level1">
-<h1><strong>Data Sources</strong></h1>
-<ul>
-<li></li>
-<li>The Best Hospitals Honor Roll is a list of the top 20 hospitals that had the highest ratings across all 16 Best Hospital specialties, nine procedures, and condition ratings. Total points for hospitals on the Best Hospital Honor Roll list are out of a maximum of 448. We scraped the <a href="https://web.archive.org/web/20160816171510/http://health.usnews.com/health-care/best-hospitals/articles/best-hospitals-honor-roll-and-overview">2016-2017 Best Hospitals Honor Roll</a> from the web using CSS selectors.</li>
-</ul>
-<p>More information about the US News &amp; World Reports methodology for the 2016-2017 rankings can be found <a href="http://web.archive.org/web/20160910084826/http://static.usnews.com:80/documents/health/best-hospitals/BH_Methodology_2016-17.pdf">here</a>.</p>
-</div>
-<div id="analyses" class="section level1">
-<h1><strong>Analyses</strong></h1>
-<p>Please see our <a href="https://youtu.be/xTQKZP_36tE">video</a> for an narrated screencast of our analysis.</p>
-<p>Questions we were interested in included:</p>
-<ul>
-<li>What was the geographic distribution of mortality rate?</li>
-</ul>
-<p>The plots that address these questions can be found <a href="https://carolinadownie.shinyapps.io/p8105_finalproject_shiny/">here</a>.</p>
-<ul>
-<li><p>How did the distribution of ratings vary by hospital ownership type?</p></li>
-<li><p>Were there important differences in the Top 20 Hospitals in 2016-2017 as ranked by <a href="https://web.archive.org/web/20160816171510/http://health.usnews.com/health-care/best-hospitals/articles/best-hospitals-honor-roll-and-overview">US News and World Reports</a> and the corresponding 2016 Medicare scores for these hospitals (i.e. were the hospitals’ complaints justified)?</p></li>
-</ul>
-<p>The plots that adress these questions can be found <a href="Hospital_flexdashboard.html">here</a>.</p>
-<ul>
-<li>Can we make a logistic model for patient satisfaction score based on other known hospital ranking criteria?</li>
-</ul>
-<p>The preliminary model we created can be found <a href="Model_Page.html">here</a>.</p>
-</div>
-<div id="conclusions-and-future-directions" class="section level1">
-<h1><strong>Conclusions and Future Directions</strong></h1>
-<p>Our analysis suggests that some of the criticisms of the Medicare Hospital Star rating system may be valid. There was an unexpected geographical distribution of 5-star hospitals (for example, there were more 5 star hospitals in South Dakota than in New York). However, the comparison of the Medicare Hospital rankings and the US News &amp; Reports rankings were more similar than we initially thought they might be, based on the controversy over the Medicare stars.</p>
-<p>Future analyses could include: assessing the Medicare hospital ratings in the context of the socioeconomic demographics of the patients they serve, seeing how these ratings change over time, and more rigorous statistical analyses.</p>
-<hr />
-<div id="relevant-links-new-york-city-nyc-open-data-mailman-yis-email-candaces-email-nicks-email-carolinas-email" class="section level4">
-<h4>Relevant Links: <a href="https://www1.nyc.gov">New York City</a> | <a href="https://opendata.cityofnewyork.us">NYC Open Data</a> | <a href="https://www.mailman.columbia.edu/">Mailman</a> | <a href="mailto:yx2510@cumc.columbia.edu">Yi’s Email</a> | <a href="mailto:cbh2134@cumc.columbia.edu">Candace’s Email</a> | <a href="mailto:np2582@cumc.columbia.edu">Nick’s Email</a> | <a href="mailto:cgd2137@cumc.columbia.edu">Carolina’s Email</a></h4>
-<hr />
-<p><br> <br></p>
+<div id="conclusions" class="section level2">
+<h2><strong>Conclusions</strong></h2>
 </div>
 </div>
 
@@ -399,8 +259,6 @@ div.tocify {
 </footer>
 
 
-</div>
-</div>
 
 </div>
 
