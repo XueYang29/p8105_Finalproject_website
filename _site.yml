@@ -14,7 +14,7 @@ navbar:
     - icon: fa-github fa-lg
       href: https://github.com/yuezhaocolumbia/p8105_final_vital_statistics
     - icon: fa-video fa-lg
-      href: https://www.youtube.com/watch?v=1arY58mTId8&feature=youtu.be
+      href: https://www.youtube.com/watch?v=1arY58mTId8&feature=youtu.be 
 output:
   html_document:
     theme: flatly
