@@ -65,4 +65,8 @@ We were intended to merge the birth dataset with the death dataset and explore t
 Other future work include stratifying each community districts in New York into according to porverty level and examining its associate with death and birth rate.
 
  
+## **Repository**
 
+* Our [final report](https://github.com/yuezhaocolumbia/p8105_final_vital_statistics) repo is here.
+
+* Our [final website](https://github.com/XueYang29/p8105_Finalproject_website) repo is here.
