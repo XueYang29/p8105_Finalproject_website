@@ -1,5 +1,5 @@
 ---
-title: "Dashboard"
+title: "Birth Dashboard"
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns
