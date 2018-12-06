@@ -120,12 +120,15 @@ cd_death_rate  = total_death_data %>%
 cd_plot = cd_death_rate %>%
    ggplot(aes(x = reorder(cd_name,average_death_rate), y = average_death_rate, fill = borough)) +
    geom_bar(stat = "identity") +
-   labs(title = "10-year average crude mortality rate in each community district in New York City",
+   labs(
              x = "Community District",
              y = "Average Motality Rate",
         caption = "Source: vital statistics database: 2000-2014") +
         theme(axis.text.x = element_text(angle=90, vjust=0.6)) +
-  viridis::scale_fill_viridis(discrete = TRUE) 
+  viridis::scale_fill_viridis(discrete = TRUE) + 
+  theme(
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) 
 
 URL <- "http://services5.arcgis.com/GfwWNkhOj9bNBqoJ/arcgis/rest/services/nycd/FeatureServer/0/query?where=1=1&outFields=*&outSR=4326&f=geojson"
 fil <- "nyc_community_districts.geojson"
@@ -164,9 +167,9 @@ geom_map(data=choro, map=nyc_districts_map,
 scale_fill_viridis(name="Average death rate") + 
 coord_map() +
 ggthemes::theme_map() +
-theme(legend.position=c(0.1,0.5)) +
-   labs(title = "average crude mortality rate in each community district in New York City from 2000 to 2014"
-            )
+theme(legend.position=c(0.1,0.5)) 
+
+
 
 
 
@@ -174,13 +177,14 @@ theme(legend.position=c(0.1,0.5)) +
 
 Column {data-width=500}
 -----------------------------------------------------------------------
+### map of crude mortality rate in NYC 
 ```{r}
 cd_death_map
 ```
 
 Column {data-width=500}
 -----------------------------------------------------------------------
-### map of crude mortality rate in NYC 
+### crude mortality rate in each comminity distrcts in NYC 
 ```{r}
 ggplotly(cd_plot)
 ```
