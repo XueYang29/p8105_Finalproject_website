@@ -2,8 +2,17 @@
 title: "Death"
 ---
 
-### About this site
+Key findings:
 
-Sometimes you need to say a bit about the site -- how it was made, where it's hosted, where the source code can be found. 
+**change in leading cause of death in selected years**
 
-If this is for a project or analysis, I recommend giving some details about the R package versions that you used to create the content.
+- Heart disease and malignant neoplasms (cancer) were by far the most leading cause of death in our selected years. 
+
+- HIV dropped out from the top ten while breast cancer emerged as new major causes. 
+
+ <img src="images/white city.jpg"> 
+ 
+ ****
+ 
+ 
+
