@@ -38,11 +38,7 @@ Motality data, for example, offers a snapshot of current health problems and kno
 Birth data, on the other hand, will directly influence the total population which may have effect on the calculation of the measures of disease occurrence. At the same time, birth rate may also be influenced by the maternal issue, such as maternal age, nativity and so on. So analysing on the birth data can help us identify the issue that may cause the increase or decrease of the birth counts, which can further help us to identify the construction of the total population.
 
 
-<br>
 
-##  **Screencast**
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/xTQKZP_36tE" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
 
 <br>
 
