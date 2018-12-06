@@ -6,42 +6,224 @@ output:
     vertical_layout: fill
 ---
 
-
+rmarkdown::render("death_dashboard_template.Rmd", output_format = "flex_dashboard")
 ```{r setup, include=FALSE}
-library(flexdashboard)
+library(haven)
+library(dplyr)
 library(tidyverse)
+library(stringi)
+library(ggplot2)
+library(ggmap)
+library(rgeos)
+library(maptools)
+library(geojsonio)
 library(viridis)
 library(plotly)
+library(ggpubr)
 ```
 
 
-```{r}
+```{r, message=FALSE}
+#import death data from 2004 to 2014
+name = list.files(path = "./data", full.names = TRUE, pattern = "*.sas7bdat") 
+cd_data =  map_df(name, read_sas)  %>%
+  janitor::clean_names()
+year = as.data.frame(rep(2000:2014, each = 59)) 
 
+# add a column "year"
+cd_data = cbind(year, cd_data) 
+colnames(cd_data)[1] = "year"
+
+community_district = unique(cd_data$community_district)
+cd_number = c(101:112, 201:212, 301: 318, 401:414, 501:503)
+community_district = as.tibble(cbind(community_district, cd_number))
+
+cd_data = merge(cd_data, community_district , by = "community_district")
+
+
+
+# import population data
+cd_number2 = c(201:212, 301: 318, 101:112, 401:414, 501:503)
+pop_data2 = read_csv("./data/New_York_City_Population_By_Community_Districts 16.09.03.csv") %>%
+ janitor::clean_names() 
+pop_data2 = cbind(cd_number2, pop_data2) %>%
+  select(borough, cd_number2, cd_name, x2000_population, x2010_population) %>%
+  rename("cd_number" = "cd_number2")
+  # standardize the cd_number
+
+  
+
+
+  
+# merge the two datasets
+my_data = merge(pop_data2, cd_data, by = "cd_number") 
+ 
+my_tidy_data = my_data %>% # we'll use 2000 year population data for 2000 - 2009, and 2010 year data for 2010 -2014 
+  mutate(population = ifelse(year < 2010, my_data$x2000_population, my_data$x2010_population)) %>%
+  select(-c(x2000_population, x2010_population)) %>% 
+  mutate(cd_name = as.factor(cd_name)
+         ) %>%
+  select(c(cd_number:cd_name, year:population))
+
+# we are first dealing with death infomation without accounting for other demographic characteristics
+total_death_data = my_tidy_data %>%
+  select(cd_number:year, x1: x22, population, total) %>%
+  gather(key = "cause_of_death", value = number, x1:x22) 
+
+replace_cd = function(df){ 
+ 
+  df$cause_of_death[df$cause_of_death == "x1" | df$cause_of_death == "c1"] = "septicemia" 
+  df$cause_of_death[df$cause_of_death == "x2" | df$cause_of_death == "c2"] = "HIV"
+  df$cause_of_death[df$cause_of_death == "x3" | df$cause_of_death == "c3"] = "malignant neoplasms (cancer)"
+  df$cause_of_death[df$cause_of_death == "x4" | df$cause_of_death == "c4"] = "cancer of the colon, rectum, and anus"
+  df$cause_of_death[df$cause_of_death == "x5" | df$cause_of_death == "c5"] = "cancer of the pancreas"
+  df$cause_of_death[df$cause_of_death == "x6" | df$cause_of_death == "c6"] = "trachea, bronchus, and lung"
+  df$cause_of_death[df$cause_of_death == "x7" | df$cause_of_death == "c7"] = "cancer of the breast (female)"
+  df$cause_of_death[df$cause_of_death == "x8" | df$cause_of_death == "c8"] = "cancer of the prostate"
+  df$cause_of_death[df$cause_of_death == "x9" | df$cause_of_death == "c9"] = " diabetes mellitus"
+  df$cause_of_death[df$cause_of_death == "x10" | df$cause_of_death == "c10"] = "psychoactive substance"
+  df$cause_of_death[df$cause_of_death == "x11"  | df$cause_of_death == "c11"] = "Alzheimer's disease"
+  df$cause_of_death[df$cause_of_death == "x12" | df$cause_of_death == "c12"] = " diseases of the heart"
+  df$cause_of_death[df$cause_of_death == "x13" | df$cause_of_death == "c13"] = "hypertension/hypertensive renal disease"
+  df$cause_of_death[df$cause_of_death == "x14" | df$cause_of_death == "c14"] = "cerebrovascular diseases"
+  df$cause_of_death[df$cause_of_death == "x15" | df$cause_of_death == "c15"] = "influenza and pneumonia"
+  df$cause_of_death[df$cause_of_death == "x16" | df$cause_of_death == "c16"] = "chronic lower respiratory diseases"
+  df$cause_of_death[df$cause_of_death == "x17" | df$cause_of_death == "c17"] = "chronic liver disease and cirrhosis"
+  df$cause_of_death[df$cause_of_death == "x18" | df$cause_of_death == "c18"] = "Nephritis, Nephrotic Syndrome and Nephrosis"
+  df$cause_of_death[df$cause_of_death == "x19" | df$cause_of_death == "c19"] = "accident except drug poisoning"
+  df$cause_of_death[df$cause_of_death == "x20" | df$cause_of_death == "c20"] = "intentional self‐harm (suicide)"
+  df$cause_of_death[df$cause_of_death == "x21" | df$cause_of_death == "c21"] = "assault (homicide)"
+  df$cause_of_death[df$cause_of_death == "x22" | df$cause_of_death == "c22"] = "others"
+  df
+}
+
+## replace
+total_death_data = replace_cd(total_death_data)
 ```
 
 Column {data-width=500}
 -----------------------------------------------------------------------
 
-### Title
+### average crude mortality rate in each community district in New York City
+cd_death_rate  = total_death_data %>%
+  group_by(borough, cd_name, year) %>%
+  summarise(total_cd_death = sum(number, na.rm = TRUE), population = mean(population), cd_number = mean(as.numeric(cd_number))) %>%
+  mutate(motality_rate = total_cd_death/population) %>%
+  group_by(cd_name, borough) %>%
+  summarise(average_death_rate = mean(motality_rate), cd_number = mean(cd_number)) %>%
+  arrange(desc(average_death_rate))
+
+
+cd_death_rate %>%
+   ggplot(aes(x = reorder(cd_name,average_death_rate), y = average_death_rate, fill = borough)) +
+   geom_bar(stat = "identity") +
+   labs(title = "10-year average crude mortality rate in each community district in New York City",
+             x = "Community District",
+             y = "Average Motality Rate",
+        caption = "Source: vital statistics database: 2000-2014") +
+        theme(axis.text.x = element_text(angle=90, vjust=0.6)) +
+  viridis::scale_fill_viridis(discrete = TRUE) 
 
 ```{r}
+# 15-year average crude mortality rate in each community district in New York City
+cd_death_rate  = total_death_data %>%
+  group_by(borough, cd_name, year) %>%
+  summarise(total_cd_death = sum(number, na.rm = TRUE), population = mean(population), cd_number = mean(as.numeric(cd_number))) %>%
+  mutate(motality_rate = total_cd_death/population) %>%
+  group_by(cd_name, borough) %>%
+  summarise(average_death_rate = mean(motality_rate), cd_number = mean(cd_number)) %>%
+  arrange(desc(average_death_rate))
 
+
+cd_plot = cd_death_rate %>%
+   ggplot(aes(x = reorder(cd_name,average_death_rate), y = average_death_rate, fill = borough)) +
+   geom_bar(stat = "identity") +
+   labs(title = "10-year average crude mortality rate in each community district in New York City",
+             x = "Community District",
+             y = "Average Motality Rate",
+        caption = "Source: vital statistics database: 2000-2014") +
+        theme(axis.text.x = element_text(angle=90, vjust=0.6)) +
+  viridis::scale_fill_viridis(discrete = TRUE) 
+
+ggplotly(cd_plot)
 ```
 
 Column {data-width=500}
 -----------------------------------------------------------------------
 
-### Title
+### map of crude mortality rate in NYC 
 
 ```{r}
+URL <- "http://services5.arcgis.com/GfwWNkhOj9bNBqoJ/arcgis/rest/services/nycd/FeatureServer/0/query?where=1=1&outFields=*&outSR=4326&f=geojson"
+fil <- "nyc_community_districts.geojson"
+if (!file.exists(fil)) download.file(URL, fil)
 
+nyc_districts = geojson_read(fil, what="sp")
+
+
+nyc_districts_map = fortify(nyc_districts, region="BoroCD") # add border line 
+
+mids = cbind.data.frame(as.data.frame(gCentroid(nyc_districts, byid=TRUE)), 
+                         id=nyc_districts$BoroCD)
+
+ny_map = ggplot() %>% +  # draw NYC map
+         geom_map(data=nyc_districts_map, map=nyc_districts_map,
+                    aes(x=long, y=lat, map_id=id),
+                    color="#2b2b2b", size=0.15, fill=NA) + 
+        geom_text(data=mids, aes(x=x, y=y, label=id), size=2) +
+        coord_map() + 
+        ggthemes::theme_map()
+
+par(mfrow = c(2,1))
+ nyc_districts@data =  merge(nyc_districts@data, cd_death_rate, by.x = "BoroCD", by.y = "cd_number")
+
+choro = data.frame(district=nyc_districts@data$BoroCD,  
+                    average_death_rate=nyc_districts@data$average_death_rate)
+
+cd_death_map = nyc_districts_map %>% # add color to map 
+ggplot()+
+geom_map(map=nyc_districts_map,
+                    aes(x=long, y=lat, map_id=id),
+                    color="#2b2b2b", size=0.15, fill=NA) +
+geom_map(data=choro, map=nyc_districts_map,
+                    aes(fill=average_death_rate, map_id=district),
+                    color="#2b2b2b", size=0.15) +
+scale_fill_viridis(name="Average death rate") + 
+coord_map() +
+ggthemes::theme_map() +
+theme(legend.position=c(0.1,0.5)) +
+   labs(title = "average crude mortality rate in each community district in New York City from 2000 to 2014"
+            )
+
+cd_death_map
 
 ```
 
-### Title
-
+### Tleading cause of death in 5 borough in NYC
 ```{r}
+# cause-specific mortality rate in each borough
+specific_death_rate = total_death_data %>%
+  group_by(borough, year, cause_of_death) %>%
+  summarise(cause_specific_death = sum(number, na.rm = TRUE), population = sum(population)) %>% # calculate the population  in each borough and number of people died of each cause 
+  mutate(cause_specific_death_rate = cause_specific_death/population) %>% # calculate cause-specific mortality rate
+  group_by(borough, cause_of_death) %>% # get average death rate
+  summarise(mean_cs_death_rate = mean(cause_specific_death_rate)) %>%
+  arrange(borough, mean_cs_death_rate)
 
+cs_death_plot = specific_death_rate %>%
+  ggplot(aes(x = reorder(cause_of_death, mean_cs_death_rate), y = mean_cs_death_rate)) +
+  geom_bar(aes(fill = cause_of_death), stat = "identity") +
+  facet_grid(. ~ borough)  +
+   labs(title = "14-year average cause-specific crude mortality rate in each borough",
+             x = "Cause of Death",
+             y = "Cause-specific Mortality Rate",
+              caption = "Source: vital statistics database: 2000-2014") +
+        theme(axis.text.x = element_text(angle=90, size = 8, vjust=0.6)) +
+        theme(legend.position="bottom", 
+              legend.key.size = unit(.1, "in")) +
+    coord_flip()  +
+  viridis::scale_fill_viridis(discrete = TRUE)
 
+cs_death_plot
 ```
 
