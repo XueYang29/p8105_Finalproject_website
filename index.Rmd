@@ -1,8 +1,7 @@
 ---
 output: 
-  html_document:
-     toc: true
-     toc_float: true
+  html_document
+    
 ---
 
 <br>
@@ -11,14 +10,14 @@ output:
 ![](http://www.columbia.edu/~sw2206/cu_mailman_logo.png)  
 <br>
   
-## Vital Statistics Data Analysis in New York City 
+# **Vital Statistics Data Analysis in New York City**
 
 <br>
 
  
 
 ***
-# **Group Member**
+## **Group Member**
 
 **Yi Xiao(yx2510)**
 
@@ -28,8 +27,9 @@ output:
 
 **Yue Zhao(yz3297)**
 
+<br>
 
-#  **Motivation**
+##  **Motivation**
 
 Vital statistics including birth and mortality data is of critical importance in assesssing community health status. Birth rate, leading cause of death and mortality rate often serve as cornerstone in formulating public health policies. 
 
@@ -40,7 +40,7 @@ Birth data, on the other hand, will directly influence the total population whic
 
 <br>
 
-#  **Screencast**
+##  **Screencast**
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/xTQKZP_36tE" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
 
@@ -48,7 +48,7 @@ Birth data, on the other hand, will directly influence the total population whic
 
 
 
-#  **Data Sources**
+##  **Data Sources**
 
 Our data is from the [NYC Department of Health and Mental Hygiene](https://www1.nyc.gov/site/doh/index.page) . 
 
@@ -56,9 +56,9 @@ Datasets that will be used in this project are, but not limited to, the [birth m
 
 
 
+<br>
 
-
-# **Conclusions**
+## **Conclusions**
 
  
 
