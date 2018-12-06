@@ -2,3 +2,33 @@
 title: "Birth"
 ---
 
+For the birth data, we would like to know the birth rate in the city of New York by sex, place of origin and borough and we would also plot the time trend of birth rate from year 2000 to 2014.  By exploring the dataset, we'd like to know the differences of birth characteristics among different borough in the city of New York through years.
+
+<br>
+
+## Questions
+
+What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis?
+
+The main questions we are trying to answer is:
+
+* How the birth number changes over the time from 2000 to 2014?
+
+* What the association between maternal and birth characteristics?
+
+When we begin our data manipulation, we found out that there are no individual datas in the website, the data are aggregated in three different ways: community district, zip code and census tract. 
+
+So our new question is:
+
+* Which aggregated data do we decide to use?
+
+Meanwhile, since all the data are aggregated, we can compare the related birth characteristics between the community district, zip code or census tract:
+
+* Is there any difference of the birth characteristics between different boroughs in the cith of New York?
+
+<br>
+
+## 
+
+
+
