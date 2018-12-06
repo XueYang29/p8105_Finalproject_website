@@ -141,15 +141,22 @@ maternal_age_plot_data =
   group_by(year, borough, new_age) %>% 
   summarise(number = sum(num)) 
 
-maternal_age_plot_data %>%
+scatter_ggplot3 = maternal_age_plot_data %>%
   group_by(year, new_age) %>% 
   summarise(number = sum(number)) %>% 
-  mutate(percent = number/ sum(number)) %>%
-  plot_ly(x = ~year, y = ~percent, color = ~new_age, type = "scatter", 
-          mode = "lines+markers", colors = "Set1"
-          ) %>% 
-  layout(xaxis = list(title = " Year"),
-         yaxis = list(title = "Proportion of number of  birth"),
-         legend = list(title = "Maternal Age"))
+  mutate(percent = number/ sum(number)) %>% 
+  ggplot(aes(x = year, y = percent, color = new_age)) +
+  geom_point() +
+  geom_line() +
+  labs(y = "Proportion of number of  birth",
+      x = "Year",
+      color = "Maternal Age") +
+  theme_bw() +
+  scale_x_continuous(breaks=seq(2000, 2014, 1)) +
+  viridis::scale_color_viridis(discrete = TRUE) +
+  theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
+
+ggplotly(scatter_ggplot3)
+
 ```
 
