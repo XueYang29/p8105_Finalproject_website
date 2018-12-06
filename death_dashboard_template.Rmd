@@ -6,7 +6,6 @@ output:
     vertical_layout: fill
 ---
 
-rmarkdown::render("death_dashboard_template.Rmd", output_format = "flex_dashboard")
 ```{r setup, include=FALSE}
 library(haven)
 library(dplyr)
@@ -20,6 +19,7 @@ library(geojsonio)
 library(viridis)
 library(plotly)
 library(ggpubr)
+library(flexdashboard)
 ```
 
 
@@ -99,10 +99,6 @@ replace_cd = function(df){
 
 ## replace
 total_death_data = replace_cd(total_death_data)
-```
-
-Column {data-width=500}
------------------------------------------------------------------------
 
 ### average crude mortality rate in each community district in New York City
 cd_death_rate  = total_death_data %>%
@@ -112,20 +108,6 @@ cd_death_rate  = total_death_data %>%
   group_by(cd_name, borough) %>%
   summarise(average_death_rate = mean(motality_rate), cd_number = mean(cd_number)) %>%
   arrange(desc(average_death_rate))
-
-
-cd_death_rate %>%
-   ggplot(aes(x = reorder(cd_name,average_death_rate), y = average_death_rate, fill = borough)) +
-   geom_bar(stat = "identity") +
-   labs(title = "10-year average crude mortality rate in each community district in New York City",
-             x = "Community District",
-             y = "Average Motality Rate",
-        caption = "Source: vital statistics database: 2000-2014") +
-        theme(axis.text.x = element_text(angle=90, vjust=0.6)) +
-  viridis::scale_fill_viridis(discrete = TRUE) 
-
-```{r}
-# 15-year average crude mortality rate in each community district in New York City
 cd_death_rate  = total_death_data %>%
   group_by(borough, cd_name, year) %>%
   summarise(total_cd_death = sum(number, na.rm = TRUE), population = mean(population), cd_number = mean(as.numeric(cd_number))) %>%
@@ -145,15 +127,6 @@ cd_plot = cd_death_rate %>%
         theme(axis.text.x = element_text(angle=90, vjust=0.6)) +
   viridis::scale_fill_viridis(discrete = TRUE) 
 
-ggplotly(cd_plot)
-```
-
-Column {data-width=500}
------------------------------------------------------------------------
-
-### map of crude mortality rate in NYC 
-
-```{r}
 URL <- "http://services5.arcgis.com/GfwWNkhOj9bNBqoJ/arcgis/rest/services/nycd/FeatureServer/0/query?where=1=1&outFields=*&outSR=4326&f=geojson"
 fil <- "nyc_community_districts.geojson"
 if (!file.exists(fil)) download.file(URL, fil)
@@ -195,35 +168,21 @@ theme(legend.position=c(0.1,0.5)) +
    labs(title = "average crude mortality rate in each community district in New York City from 2000 to 2014"
             )
 
-cd_death_map
+
 
 ```
 
-### Tleading cause of death in 5 borough in NYC
+Column {data-width=500}
+-----------------------------------------------------------------------
 ```{r}
-# cause-specific mortality rate in each borough
-specific_death_rate = total_death_data %>%
-  group_by(borough, year, cause_of_death) %>%
-  summarise(cause_specific_death = sum(number, na.rm = TRUE), population = sum(population)) %>% # calculate the population  in each borough and number of people died of each cause 
-  mutate(cause_specific_death_rate = cause_specific_death/population) %>% # calculate cause-specific mortality rate
-  group_by(borough, cause_of_death) %>% # get average death rate
-  summarise(mean_cs_death_rate = mean(cause_specific_death_rate)) %>%
-  arrange(borough, mean_cs_death_rate)
-
-cs_death_plot = specific_death_rate %>%
-  ggplot(aes(x = reorder(cause_of_death, mean_cs_death_rate), y = mean_cs_death_rate)) +
-  geom_bar(aes(fill = cause_of_death), stat = "identity") +
-  facet_grid(. ~ borough)  +
-   labs(title = "14-year average cause-specific crude mortality rate in each borough",
-             x = "Cause of Death",
-             y = "Cause-specific Mortality Rate",
-              caption = "Source: vital statistics database: 2000-2014") +
-        theme(axis.text.x = element_text(angle=90, size = 8, vjust=0.6)) +
-        theme(legend.position="bottom", 
-              legend.key.size = unit(.1, "in")) +
-    coord_flip()  +
-  viridis::scale_fill_viridis(discrete = TRUE)
-
-cs_death_plot
+cd_death_map
 ```
+
+Column {data-width=500}
+-----------------------------------------------------------------------
+### map of crude mortality rate in NYC 
+```{r}
+ggplotly(cd_plot)
+```
+
 
