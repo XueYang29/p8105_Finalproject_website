@@ -7,8 +7,10 @@ navbar:
       href: birth.html
     - text: Death
       href: death.html
-    - text: Dashboard
-      href: dashboard_template.html
+    - text: Birth Dashboard
+      href: birth_dashboard_template.html
+    - text: Death Dashboard
+      href: death_dashboard_template.html
     - icon: fa-github fa-lg
       href: https://github.com/yuezhaocolumbia/p8105_final_vital_statistics
     - icon: fa-video fa-lg
