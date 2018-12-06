@@ -44,7 +44,7 @@ birth_data_un =
   left_join(cd_code_data, by = "cd") 
 ```
 
-Column {data-width=650}
+Column {data-width=500}
 -----------------------------------------------------------------------
 
 ### Birth trend in different maternal marry status in NYC for each borough
@@ -81,7 +81,7 @@ scatter_ggplot1 =
 ggplotly(scatter_ggplot1)
 ```
 
-Column {data-width=350}
+Column {data-width=500}
 -----------------------------------------------------------------------
 
 ### Birth trend in different infant sex in NYC for each borough
